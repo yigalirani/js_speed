@@ -38,17 +38,31 @@ function count3(node){
     return 0
   return 1+count3(node.left)+count3(node.right)
 }
-
+function diff_dict(a,b){
+  var ans={}
+  for (const key of Object.keys(a)){
+    ans[key]=a[key]-b[key]
+  }
+  return ans
+}
+function call_gc(){
+  if (global.gc)
+    return global.gc()
+  return 'gc not available'
+}
 function measure(build,count){
   var start=Date.now()
   run_counter=0
-  var used_before=process.memoryUsage().heapTotal
+  var gc=call_gc()
+  var used_before=process.memoryUsage()
   var root=build(depth)
-  var used_build=process.memoryUsage().heapTotal
+  var used_build=process.memoryUsage()
   var ops=count(root)
   root=null
-  var used_clear=process.memoryUsage().heapTotal
-  var used_diff=used_clear-used_before
+  call_gc();
+  var used_clear=process.memoryUsage()
+  var used_diff=diff_dict(used_build,used_before)
+  var mem_leak=diff_dict(used_clear,used_before)
   var end=Date.now()
   if (ops!=run_counter){
     var error='missmatch'
@@ -56,8 +70,8 @@ function measure(build,count){
   var time_diff=(end-start)/1000
   var meg_ops_persecs=ops/time_diff/1000000
  
-  var used_pernode=used_diff/run_counter
-  return {start,ops,end,time_diff,meg_ops_persecs,run_counter,error,used_before,used_build,used_clear,used_diff,used_pernode}
+  var used_pernode=used_diff.heapUsed/run_counter
+  return {gc,start,ops,end,time_diff,meg_ops_persecs,run_counter,error,used_before,used_build,used_clear,used_diff,mem_leak,used_pernode}
 }
 
 var depth=24 //number is chosen to max out memory and force gc
