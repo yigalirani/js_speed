@@ -3,40 +3,78 @@ var run_counter=0;
 function build(depth){
   if (depth==0)
     return null
-  return [run_counter++,build(depth-1),build(depth-1)]
+  return [run_counter++,build(depth-1),build(depth-1),depth]
 }
-function count(node){
+function count(node,depth){
   if (node==null)
     return 0
-  return 1+count(node[1])+count(node[2])
+depth    
+  return 1+count(node[1],depth-1)+count(node[2],depth-1)
 }
-function build2(depth){
+function build_dict_with_closure(depth){
   if (depth==0)
     return null
-  return {v:run_counter++,left:build2(depth-1),right:build2(depth-1)}
+  const v=run_counter++
+  const left=build_dict_with_closure(depth-1)
+  const right=build_dict_with_closure(depth-1)
+  return {v,left,right,get depth(){return depth}}
 }
-function count2(node){
+function count_dict_with_closure(node,depth){
   if (node==null)
     return 0
-  return 1+count2(node.left)+count2(node.right)
+  if (node.depth!=depth)
+    console.log('depth missmatch',node.depth,depth)
+  return 1+count_dict_with_closure(node.left,depth-1)+count_dict_with_closure(node.right,depth-1)
 }
+function build_dict(depth){
+  if (depth==0)
+    return null
+  const v=run_counter++
+  const left=build_dict(depth-1)
+  const right=build_dict(depth-1)
+  return {v,left,right,depth}
+}
+function count_dict(node,depth){
+  if (node==null)
+    return 0
+  if (node.depth!=depth)
+    console.log('depth missmatch',node.depth,depth)
+  return 1+count_dict(node.left,depth-1)+count_dict(node.right,depth-1)
+}
+
 class Node{
-  constructor(v,left,right){
+  constructor(v,left,right,depth){
     this.v=v
     this.left=left
     this.right=right
+    this.the_depth=depth
+  }
+  get depth(){
+    return this.the_depth
   }
 }
 function build3(depth){
   if (depth==0)
     return null
   
-  return new Node(run_counter++,build3(depth-1),build3(depth-1))
+  return new Node(run_counter++,build3(depth-1),build3(depth-1),depth)
 }
-function count3(node){
+function count3(node,depth){
   if (node==null)
     return 0
-  return 1+count3(node.left)+count3(node.right)
+  if (node.depth!=depth)
+    console.log('depth missmatch',node.depth,depth)
+  return 1+count3(node.left,depth-1)+count3(node.right,depth-1)
+}
+function count3_inner_func(node,depth){
+  if (node==null)
+    return 0
+  function test_depth(){
+    if (node.depth!=depth)
+      console.log('depth missmatch',node.depth,depth)
+  }
+  test_depth()      
+  return 1+count3(node.left,depth-1)+count3(node.right,depth-1)
 }
 function diff_dict(a,b){
   var ans={}
@@ -50,6 +88,7 @@ function call_gc(){
     return global.gc()
   return 'gc not available'
 }
+
 function measure(build,count){
   var start=Date.now()
   run_counter=0
@@ -57,7 +96,7 @@ function measure(build,count){
   var used_before=process.memoryUsage()
   var root=build(depth)
   var used_build=process.memoryUsage()
-  var ops=count(root)
+  var ops=count(root,depth)
   root=null
   call_gc();
   var used_clear=process.memoryUsage()
@@ -71,13 +110,16 @@ function measure(build,count){
   var meg_ops_persecs=ops/time_diff/1000000
  
   var used_pernode=used_diff.heapUsed/run_counter
+  return {gc,start,ops,end,time_diff,meg_ops_persecs,run_counter,error,used_pernode}
   return {gc,start,ops,end,time_diff,meg_ops_persecs,run_counter,error,used_before,used_build,used_clear,used_diff,mem_leak,used_pernode}
 }
 
 var depth=24 //number is chosen to max out memory and force gc
 var stats={
   array:measure(build,count),
-  dict:measure(build2,count2),
-  class:measure(build3,count3)
+  //dict_with_cloisre:measure(build_dict_with_closure,count_dict_with_closure),
+  dict:measure(build_dict,count_dict),
+  class:measure(build3,count3),
+  class_inner_func:measure(build3,count3_inner_func)
 }
 console.log(JSON.stringify(stats,null,4))
