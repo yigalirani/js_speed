@@ -34,6 +34,19 @@ function build_dict(depth){
   const right=build_dict(depth-1)
   return {v,left,right,depth}
 }
+function build_dict_iterivelt(depth){
+  if (depth==0)
+    return null
+  const v=run_counter++
+  const left=build_dict_iterivelt(depth-1)
+  const right=build_dict_iterivelt(depth-1)
+  const ans={}
+  ans.v=v 
+  ans.left=left
+  ans.right=right
+  ans.depth=depth
+  return ans
+}
 function count_dict(node,depth){
   if (node==null)
     return 0
@@ -119,6 +132,7 @@ var stats={
   array:measure(build,count),
   //dict_with_cloisre:measure(build_dict_with_closure,count_dict_with_closure),
   dict:measure(build_dict,count_dict),
+  build_dict_iterivelt:measure(build_dict_iterivelt,count_dict),
   class:measure(build3,count3),
   class_inner_func:measure(build3,count3_inner_func)
 }

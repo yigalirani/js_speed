@@ -1,0 +1,85 @@
+{"bun":{
+    "array": {
+        "gc": "gc not available",
+        "start": 1722850717150,
+        "ops": 16777215,
+        "end": 1722850719405,
+        "time_diff": 2.255,
+        "meg_ops_persecs": 7.440006651884701,
+        "run_counter": 16777215,
+        "used_pernode": 41.48748287483948
+    },
+    "dict": {
+        "gc": "gc not available",
+        "start": 1722850719405,
+        "ops": 16777215,
+        "end": 1722850720278,
+        "time_diff": 0.873,
+        "meg_ops_persecs": 19.217886597938143,
+        "run_counter": 16777215,
+        "used_pernode": 0
+    },
+    "class": {
+        "gc": "gc not available",
+        "start": 1722850720278,
+        "ops": 16777215,
+        "end": 1722850721202,
+        "time_diff": 0.924,
+        "meg_ops_persecs": 18.15715909090909,
+        "run_counter": 16777215,
+        "used_pernode": 32.292615550316306
+    },
+    "class_inner_func": {
+        "gc": "gc not available",
+        "start": 1722850721202,
+        "ops": 16777215,
+        "end": 1722850722169,
+        "time_diff": 0.967,
+        "meg_ops_persecs": 17.349756980351604,
+        "run_counter": 16777215,
+        "used_pernode": 11.558764848635485
+    }
+},
+"node":{
+    "array": {
+        "gc": "gc not available",
+        "start": 1722850745714,
+        "ops": 16777215,
+        "end": 1722850747652,
+        "time_diff": 1.938,
+        "meg_ops_persecs": 8.656973684210525,
+        "run_counter": 16777215,
+        "used_pernode": 79.96640014448167
+    },
+    "dict": {
+        "gc": "gc not available",
+        "start": 1722850747652,
+        "ops": 16777215,
+        "end": 1722850749383,
+        "time_diff": 1.731,
+        "meg_ops_persecs": 9.692209705372617,
+        "run_counter": 16777215,
+        "used_pernode": -24.006495476156203
+    },
+    "class": {
+        "gc": "gc not available",
+        "start": 1722850749383,
+        "ops": 16777215,
+        "end": 1722850751389,
+        "time_diff": 2.006,
+        "meg_ops_persecs": 8.363516949152544,
+        "run_counter": 16777215,
+        "used_pernode": -0.03621626116134293
+    },
+    "class_inner_func": {
+        "gc": "gc not available",
+        "start": 1722850751389,
+        "ops": 16777215,
+        "end": 1722850753305,
+        "time_diff": 1.916,
+        "meg_ops_persecs": 8.756375260960334,
+        "run_counter": 16777215,
+        "used_pernode": -0.025801183331083256
+    }
+}
+}
