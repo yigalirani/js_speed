@@ -2,7 +2,7 @@
 
 function make_orig(fields){
   const ans={}
-  for (const name of fields.split(',')){
+  for (const name of fields.split(' ')){
     const value=Math.random()
     ans[name]={name,value}
   }
@@ -10,7 +10,7 @@ function make_orig(fields){
 }
 
 
-const objects=make_orig('ctl,drag_info,effective_config,row_nums_width,effective_columns,columns_ex,colwidths_hash,colwidths,table_width,frozen_left,filtered_data,vdim,sorted_data,full_key,fn,render_data,titles,rows,frozen_rows,the_head,download,last_row,return_value')
+const objects=make_orig('The quick brown fox jumps over the lazy dog')
 const values=Object.values(objects)
 console.log(objects)
 console.log(values)
@@ -24,7 +24,7 @@ function forofvalues(){
   for (const x of Object.values(objects))
     ans+=x.value
 }
-
+ 
 function measure(func,count){
   var start=Date.now()
   for (let i=0;i<count;i++)
@@ -37,8 +37,8 @@ function measure(func,count){
 }
 function main(){
   const result={
-    forof:measure(forof,1000000),
-    forofvalues:measure(forofvalues,1000000)
+    forof:measure(forof,100000000),
+    forofvalues:measure(forofvalues,100000000)
   }
   console.log(result)
 }
